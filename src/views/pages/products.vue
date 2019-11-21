@@ -4,7 +4,7 @@
         <loading :active.sync="isLoading"></loading>
     </div>
         <div class="text-right">
-            <button class="btn btn-primary mt-4" @click="openModal(true)" >建立新的產品</button>
+            <button class="btn btn-primary mt-4" @click="openModal(true)" >建立新的產品 test</button>
         </div>
         <table class="table mt-4">
             <thead>
