@@ -25,7 +25,7 @@
                         <label for="image">輸入圖片網址</label>
                         <input
                             type="text"
-                            v-model="tempProduct.imageUrl"
+                            v-model="ProductEditProps.imageUrl"
                             class="form-control"
                             id="image"
                             placeholder="請輸入圖片連結"
@@ -34,7 +34,7 @@
                         <div class="form-group">
                         <label for="customFile">
                             或 上傳圖片
-                            <i class="fas fa-spinner fa-spin" v-if="status.fileUploading"></i>
+                            <i class="fas fa-spinner fa-spin" v-if="status.uploadImg"></i>
                         </label>
                         <input
                             type="file"
@@ -47,7 +47,7 @@
                         <img
                         img="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=828346ed697837ce808cae68d3ddc3cf&auto=format&fit=crop&w=1350&q=80"
                         class="img-fluid"
-                        :src="tempProduct.imageUrl"
+                        :src="ProductEditProps.imageUrl"
                         />
                     </div>
                     <div class="col-sm-8">
@@ -55,7 +55,7 @@
                         <label for="title">標題</label>
                         <input
                             type="text"
-                            v-model="tempProduct.title"
+                            v-model="ProductEditProps.title"
                             class="form-control"
                             id="title"
                             placeholder="請輸入標題"
@@ -67,7 +67,7 @@
                             <label for="category">分類</label>
                             <input
                             type="text"
-                            v-model="tempProduct.category"
+                            v-model="ProductEditProps.category"
                             class="form-control"
                             id="category"
                             placeholder="請輸入分類"
@@ -77,7 +77,7 @@
                             <label for="price">單位</label>
                             <input
                             type="unit"
-                            v-model="tempProduct.unit"
+                            v-model="ProductEditProps.unit"
                             class="form-control"
                             id="unit"
                             placeholder="請輸入單位"
@@ -90,7 +90,7 @@
                             <label for="origin_price">原價</label>
                             <input
                             type="number"
-                            v-model="tempProduct.origin_price"
+                            v-model="ProductEditProps.origin_price"
                             class="form-control"
                             id="origin_price"
                             placeholder="請輸入原價"
@@ -100,7 +100,7 @@
                             <label for="price">售價</label>
                             <input
                             type="number"
-                            v-model="tempProduct.price"
+                            v-model="ProductEditProps.price"
                             class="form-control"
                             id="price"
                             placeholder="請輸入售價"
@@ -113,7 +113,7 @@
                         <label for="description">產品描述</label>
                         <textarea
                             type="text"
-                            v-model="tempProduct.description"
+                            v-model="ProductEditProps.description"
                             class="form-control"
                             id="description"
                             placeholder="請輸入產品描述"
@@ -123,7 +123,7 @@
                         <label for="content">說明內容</label>
                         <textarea
                             type="text"
-                            v-model="tempProduct.content"
+                            v-model="ProductEditProps.content"
                             class="form-control"
                             id="content"
                             placeholder="請輸入產品說明內容"
@@ -133,7 +133,7 @@
                         <div class="form-check">
                             <input
                             class="form-check-input"
-                            v-model="tempProduct.is_enabled"
+                            v-model="ProductEditProps.is_enabled"
                             :true-value="1"
                             :false-value="0"
                             type="checkbox"
@@ -156,61 +156,45 @@
 </template>
 
 <script>
+import $ from 'jquery';
+
+
 export default {
-  data() {
-        return {
-            products: [],
-            tempProduct: {},
-            isNew: false,
-            isLoading : false,
-            status: {
-                fileUploading : false 
-            }
-        }
+  name: "Modal",
+  props: {
+      ProductEditProps: {
+          tpye: Object,
+      },
+      status: {
+          tpye: Object,
+      }
   },
   methods: {
-    updateProduct() {
-            let api = `${process.env.VUE_APP_API}/api/erictest/admin/product`;
-            let httpMethod = 'post' ;
-            if (!this.isNew) {
-                api = `${process.env.VUE_APP_API}/api/erictest/admin/product/${this.tempProduct.id}`
-                httpMethod = 'put'
-            }            
-            this.$http[httpMethod](api, {data: this.tempProduct}).then((response) => {
-                console.log(response.data);
-                if(response.data.success){
-                    $('#productModal').modal('hide');
-                    this.getProducts(); 
-                } else {
-                    $('#productModal').modal('hide');
-                    this.getProducts(); 
-                    alert('新增失敗')
-                }
-                // this.products = response.data.products;
-            })
-        },
         uploadFile() {
             const uploadFile = this.$refs.files.files[0];
             const formData = new FormData();
             formData.append('file-to-upload' , uploadFile);
             const url = `${process.env.VUE_APP_API}/api/erictest/admin/upload`;
-            this.status.fileUploading = true;
+            this.status.uploadImg = true;
             this.$http.post(url , formData , {
                 headers:{
                     'Content-type' : 'mutipart/form-data'
                 }
             }).then((response) => {
                 // console.log(response.data);
-                this.status.fileUploading = false;
+                this.status.uploadImg = false;
                 if(response.data.success) {
                     //寫不進set值內
-                    // this.tempProduct.imageUrl = response.data.imageUrl;
+                    // this.ProductEditProps.imageUrl = response.data.imageUrl;
                     //強制寫入
-                    this.$set(this.tempProduct , 'imageUrl' , response.data.imageUrl);
+                    this.$set(this.ProductEditProps , 'imageUrl' , response.data.imageUrl);
                 } else {
                     this.$bus.$emit('message:push' , response.data.message , 'danger')
                 }
             })
+        },
+        updateProduct(){
+            this.$emit('ProductEdit');
         }
   },
 }
