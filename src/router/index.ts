@@ -44,6 +44,19 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/',
+    name: 'dashboard',
+    component: () => import('../views/dashboard.vue'),
+    children: [
+      {
+        path: 'customPage',
+        name: 'customPage',
+        component: () => import('../views/customPage.vue'),
+        meta: { requiresAuth: true }
+      }
+    ]
+  },
   
 ]
 

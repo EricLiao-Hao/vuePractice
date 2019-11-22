@@ -20,7 +20,7 @@
           </div>
           <div class="modal-body">
             是否刪除
-            <strong class="text-danger"> {{tempProduct.title}} </strong> 商品(刪除後將無法恢復)。
+            <strong class="text-danger"> {{deleteProps.title}} </strong> 商品(刪除後將無法恢復)。
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
@@ -34,29 +34,17 @@
 
 <script>
 export default {
-    data(){
-        return{
-            products: [],
-            tempProduct: {},
-            isNew: false,
-            isLoading : false,
-            status: {
-                fileUploading : false 
-            }
-        }
-    },
-    methods: {
-        deleteProduct(){
-            const vm = this;
-            const api = `${process.env.VUE_APP_API}/api/erictest/admin/product/${vm.tempProduct.id}`;
-            this.$http.delete(api).then(response => {
-                if (response.data.success) {
-                    $("#delProductModal").modal("hide");
-                    this.getProducts();
-            }
-            });
-        }
-    },
+  name: 'DeleteModal',
+  props: {
+    deleteProps: {
+      type: Object
+    }
+  },
+  methods: {
+      deleteProduct(){
+          this.$emit('delete')
+      }
+  },
     
 }
 </script>

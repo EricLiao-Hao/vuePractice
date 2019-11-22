@@ -2,7 +2,7 @@
     <div>
         <div class="vld-parent">
         <loading :active.sync="isLoading"></loading>
-    </div>
+        </div>
         <div class="text-right">
             <button class="btn btn-primary mt-3" @click="openModal(true)" >建立新的產品</button>
         </div>
@@ -35,7 +35,7 @@
          <Pagination @changePage= "getProducts" :pagination="pagination"></Pagination>
         <!-- Modal -->
         <Modal :ProductEditProps="tempProduct" :status="status" @ProductEdit="updateProduct"></Modal>
-        <DeleteModal></DeleteModal>
+        <DeleteModal :deleteProps="tempProduct" @delete="deleteProduct"></DeleteModal>
         <!-- End -->
     </div>
 </template>
@@ -111,14 +111,18 @@ export default {
                 // this.products = response.data.products;
             })
         },
-        
+        deleteProduct() {
+            const api = `${process.env.VUE_APP_API}/api/erictest/admin/product/${this.tempProduct.id}`
+             this.$http.delete(api).then(response => {
+                if (response.data.success) {
+                    $("#delProductModal").modal("hide");
+                    this.getProducts();
+            }
+            })
+        }   
     },
     created() {
-        this.getProducts();
-        
+        this.getProducts();    
     },
-    // components: {
-    //     Modal,
-    // },
 }
 </script>
