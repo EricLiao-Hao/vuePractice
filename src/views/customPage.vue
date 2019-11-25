@@ -34,6 +34,42 @@
                 </div>
             </div>
         </div>
+        <div class="col-10 mx-auto">
+            <table class="table mt-4 test">
+                <thead>       
+                    <th width="40"></th>        
+                    <th width="150">品名</th>
+                    <th width="90">數量</th>
+                    <th width="90">單價</th>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, key) in cart.carts" :key="key">
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-outline-danger btn-sm" @click="removeCart(item.id)">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </td>
+                        <td class="align-middle"> {{item.product.title}} </td>
+                        <td>
+                            {{item.qty}} / {{item.product.unit}}                     
+                        </td>
+                        <td class="text-right">
+                            {{item.final_total | currency}}
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right">總計</td>
+                        <td class="text-right">{{ cart.total }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-right text-success">折扣價</td>
+                        <td class="text-right text-success">{{ cart.final_total }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
         <!-- modal -->
         <div class="modal fade" id="productModal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -90,7 +126,10 @@ export default {
       status: {
           loadingItem: '',
       },
-      isloading: false,
+      isLoading: false,
+      cart:{
+          carts: {},
+      },
     }
   },
   methods: {
@@ -98,7 +137,7 @@ export default {
         const api = `${process.env.VUE_APP_API}/api/erictest/products?page${page}`;
         this.isLoading = true;
         this.$http.get(api).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             this.isLoading = false;
             this.products = response.data.products;
             this.pagination = response.data.pagination;
@@ -124,13 +163,39 @@ export default {
         this.$http.post(api, {data: cart }).then((response) => {
             console.log(response.data);
             this.status.loadingItem = '';  
+            this.getCart();
             $('#productModal').modal('hide');
+        })
+    },
+    getCart(){
+        const api = `${process.env.VUE_APP_API}/api/erictest/cart`;
+        this.isLoading = true;
+        this.$http.get(api).then((response) => {
+            
+            // console.log(response.data);
+            this.cart = response.data.data;
+            this.isLoading = false;
+            // console.log(this.cart);
+            
+        })
+    },
+    removeCart(id){
+        const api = `${process.env.VUE_APP_API}/api/erictest/cart/${id}`;
+        this.isLoading = true;
+        this.$http.delete(api).then((response) => {
+            this.getCart();
+            this.isLoading = false;
         })
     }
   },
   
   created() {
-      this.getProducts()
+      this.getProducts();
+      this.getCart()
   },
 }
 </script>
+
+<style scoped>
+
+</style>

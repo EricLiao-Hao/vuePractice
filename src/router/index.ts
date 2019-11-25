@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '*',
-    redirect: 'login',
+    redirect: '',
   },
   {
     path: '/home',
@@ -24,7 +24,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/login',
+    path: '/',
     name: 'login',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
