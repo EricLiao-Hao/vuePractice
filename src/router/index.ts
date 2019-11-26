@@ -41,6 +41,12 @@ const routes = [
         name: 'products',
         component: products,
         meta: { requiresAuth: true }
+      },
+      {
+        path: 'coupon',
+        name: 'coupon',
+        component: () => import('../views/pages/Coupon.vue'),
+        meta: { requiresAuth: true }
       }
     ]
   },

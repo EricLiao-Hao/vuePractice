@@ -77,7 +77,6 @@ export default {
         },
         openModal(isNew, item) {
             console.log(item);
-            
             $('#productModal').modal('show');
             if (isNew) {
                 this.tempProduct = {};
