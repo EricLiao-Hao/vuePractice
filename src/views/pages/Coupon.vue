@@ -25,7 +25,7 @@
                     </td>
                     <td>
                         <button class="btn btn-outline-primary btn-sm" @click="opencouponModal(false, item)">編輯</button>
-                        <button class="btn btn-outline-danger btn-sm">刪除</button>
+                        <button class="btn btn-outline-danger btn-sm" @click="deleteCoupon(item)">刪除</button>
                     </td>
                 </tr>
             </tbody>
@@ -154,6 +154,17 @@ export default {
             this.$http.get(api).then((response) => {
                 console.log(response.data);
                 this.coupon = response.data.coupons;
+                this.isLoading = false;  
+                $('#couponModal').modal('hide');             
+            })
+        },
+        deleteCoupon(item){
+            this.coupon = item ;
+            const api = `${process.env.VUE_APP_API}/api/erictest/admin/coupon/${this.coupon.id}`;
+            this.isLoading = true;
+            this.$http.delete(api).then((response) => {
+                console.log(response.data);
+                this.getCoupon();
                 this.isLoading = false;  
                 $('#couponModal').modal('hide');             
             })

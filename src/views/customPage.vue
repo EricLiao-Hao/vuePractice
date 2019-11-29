@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-10 mx-auto">
+        <div class="col-8 mx-auto">
             <table class="table mt-4 test">
                 <thead>       
                     <th width="40"></th>        
