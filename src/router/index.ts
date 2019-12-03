@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '*',
-    redirect: '',
+    redirect: '/',
   },
   {
     path: '/home',
@@ -59,7 +59,11 @@ const routes = [
         path: 'customPage',
         name: 'customPage',
         component: () => import('../views/customPage.vue'),
-        meta: { requiresAuth: true }
+      },
+      {
+        path: 'customCheckout/:orderId',
+        name: 'customCheckout',
+        component: () => import('../views/pages/customCheckout.vue'),       
       }
     ]
   },
