@@ -47,7 +47,13 @@ const routes = [
         name: 'coupon',
         component: () => import('../views/pages/Coupon.vue'),
         meta: { requiresAuth: true }
-      }
+      },
+      {
+        path: 'orderPage',
+        name: 'orderPage',
+        component: () => import('../views/pages/orderPage.vue'),
+        meta: { requiresAuth: true }
+      },
     ]
   },
   {

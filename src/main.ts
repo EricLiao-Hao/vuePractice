@@ -12,6 +12,7 @@ import currencyFilter from './filters/currency'
 import VeeValidate from 'vee-validate'
 import zhTW from 'vee-validate/dist/locale/zh_TW'
 import VueI18n from 'vue-i18n'
+import timeTransform from './filters/timeTransform'
 
 Vue.config.productionTip = false;
 axios.defaults.withCredentials = true;
@@ -34,7 +35,7 @@ Vue.use(VeeValidate, {
 
 Vue.component('Loading' , Loading);
 Vue.filter('currency' , currencyFilter);
-
+Vue.filter('time' ,timeTransform);
 
 
 new Vue({

@@ -284,10 +284,8 @@ export default {
     createOrder(){
         const api = `${process.env.VUE_APP_API}/api/erictest/order`;
         const order = this.form;
-        this.isLoading = true;
         this.$http.post(api , {data:order}).then((response) => {
-            console.log('訂單已建立' ,response);
-            this.isLoading = false;
+            console.log('訂單已建立' ,response);      
             if(response.data.success) {
                 this.$router.push(`customCheckout/${response.data.orderId}`)
             }
