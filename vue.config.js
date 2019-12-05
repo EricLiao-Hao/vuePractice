@@ -9,6 +9,8 @@ module.exports = {
                     '^/api': '^/api'
                 }
             },
-        }
-    }
+        },
+        "port": 8888,
+    },
+    publicPath: './',
 }
