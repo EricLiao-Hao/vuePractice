@@ -6,7 +6,7 @@
         <div class="row mt-4">
             <div class="col-md-4 mb-4" v-for="item in products" :key="item.id">
                 <div class="card border-0 shadow-sm">
-                    <div style="height: 150px; background-size: cover; background-position: center"
+                    <div style="height: 250px; background-size: cover; background-position: center"
                         :style="{backgroundImage: `url(${item.imageUrl})`}">
                     </div>
                     <div class="card-body">
@@ -35,8 +35,8 @@
             </div>
         </div>
         <div class="pull-right">
-        <button class="btn btn-primary btn-sm cartBtn" @click="cartModal">
-            <i class="fas fa-cart-plus"></i> <br> 購<br>物<br>車</button>
+        <button class="btn btn-primary btn-sm cartBtn" @click="cartModal" v-model="cartNum">
+            <i class="fas fa-cart-plus"></i> <br> 購<br>物<br>車<br> ({{cartNum}}) </button>
         </div>
         <!-- modal -->
         <div class="modal fade" id="productModal" tabindex="-1" role="dialog"
@@ -198,6 +198,7 @@ export default {
       cart:{
           carts: {},
       },
+      cartNum: '0',
       form:{
           user:{
               name:'',
@@ -251,8 +252,9 @@ export default {
         this.isLoading = true;
         this.$http.get(api).then((response) => {
             
-            // console.log(response.data);
+            
             this.cart = response.data.data;
+            this.cartNum = response.data.data.carts.length;
             this.isLoading = false;
             // console.log(this.cart);
             

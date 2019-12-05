@@ -69,7 +69,7 @@ export default {
             const api = `${process.env.VUE_APP_API}/api/erictest/admin/products?page=${page}`;
             this.isLoading = true;
             this.$http.get(api).then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 this.isLoading = false;
                 this.products = response.data.products;
                 this.pagination = response.data.pagination;

@@ -26,7 +26,7 @@ export default {
         message,
         status,
         timestamp,
-      });
+      })
       this.removeMessageWithTiming(timestamp);
     },
     removeMessage(num) {
